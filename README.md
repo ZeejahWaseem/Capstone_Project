@@ -44,15 +44,15 @@ Avg ratings is the key metrics we used for our all three of our recommendations.
 ### Three visualizations (the same visualizations presented in the slides and notebook)
 
 Genre: 
-![image.png](attachment:image.png)
+![Genre](images/Genre.png)
 
 Run-time:
-![image.png](attachment:image.png)
-![image.png](attachment:image.png)
-![image.png](attachment:image.png)
+![Runtime](images/Runtime.png)
+![Runtime-Boxplot](images/Runtime-Boxplot.png)
+![Doc-Runtime](images/Doc-Runtime.png)
 
 Directors
-![image.png](attachment:image.png)
+![Directors](images/Directors.png)
 
 ### Statistical Communication
 
@@ -81,6 +81,13 @@ Next we stated out Ho and Ha:
 Then we computed the mu, sigma, x_bar, n values for our joined dataframe (jt_df) using functions like mean() and std(). Finally we used the mu, sigma, x_bar and n to find the value z and p values. As our p_value came out to be less than our alpha value so we rejected the Null Hypothesis that the Documentary genre had the same or less average ratings compared to the rest of the population.
 
 ##### Run-time
+We compared movie run times with movie ratings to determine if movie length had any effect on how well a movie performed. The first step was to join movie ratings with movie basics using movie id. We used the WHERE clause to only include columns with the number of votes over 1000. We also used the GROUP BY clause to filter based on average rating and sorted by runtime minutes using the ORDER BY clause. An initial comparison of average movie ratings and movie run times showed no relationship between the two metrics. 
+
+To further inspect the data, we then filtered out movies with a certain runtime, this both included long and short movies. We also filtered poorly rated and highly rated movies. The next step was to use the corr() function to find our correlation coefficient for runtime minutes and average rating. Setting custom bins for runtime ranges based on average rating allowed us to see the more popular runtimes. As we continued our analysis, we noticed a potential trend of shorter length films having higher ratings, so we continued to investigate further.
+
+Documentaries (a subset of these shorter films) was chosen to explore the potential correlation between higher ratings and shorter films. We accomplished this by using the split and explode functions to isolate documentaries from genres. We then used the corr() function to determine correlation between documentary runtime and average rating. This resulted in a correlation coefficient of .09, reaffirming our earlier observation of there being no relationship between movie length and movie rating. A possible reason for the appearance of a correlation between shorter films and higher ratings could have been the result of a smaller number of films in those categories.
+
+We recommend the studio not invest additional resources into considering film length when developing movies (documentaries or otherwise), as we have not found any measurable correlation between how well a movie is rated and its length.
 
 ##### Directors
 Before we were able to provide the proper director recommendation we had to preform several data cleaning and prepping tactics. First we joined movie_ratings and directors using movie_id. Then we joined the persons table by using person_id from the persons and directors table. We used a WHERE function so that only columns with number of votes over a 1000 would be displayed. After the tables were joined we started cleaning the data, where we dropped any duplicate movies by using the .drop_duplicates() function in pandas. This removed any movie_id that was listed more than once. Once that was complete we realized that some of the directors were no longer alive so we had to remove any row that had a date entered in the death_year column, leaving only rows with an NaN indicating the directors was still alive as of 2019. Once that was completed we no longer needed the death_year column along with the birth_year, person_id, and primary_profession so we dropped all four of them. This resulted in movie_id, averagerating, numvotes, and primary_name being the only columns left on the chart.
